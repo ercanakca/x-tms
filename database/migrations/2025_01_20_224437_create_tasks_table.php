@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
             $table->text('description')->nullable();
-            $table->enum('status', ['pending', 'canceled', 'completed'])->default('pending');
-            $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('created_admin_id')->constrained('admins')->onDelete('cascade');
-            $table->timestamps();
+            $table->string('status')->default(\App\Enums\TaskStatus::Pending->value);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
